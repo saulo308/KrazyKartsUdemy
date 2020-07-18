@@ -15,15 +15,20 @@ public:
 	// Sets default values for this pawn's properties
 	AGoKart();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	UFUNCTION()
+	void SetKartVelocity(float AxisValue);
+	void MoveKart(float DeltaTime);
+
+protected:
+	float MaxKartVelocity = 20.f;
+	FVector KartVelocity;
 };

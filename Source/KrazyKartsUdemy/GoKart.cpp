@@ -22,13 +22,23 @@ void AGoKart::BeginPlay()
 void AGoKart::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	//Moving Kart
+	MoveKart(DeltaTime);
 }
 
 // Called to bind functionality to input
 void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	PlayerInputComponent->BindAxis("MoveForward",this,&AGoKart::SetKartVelocity);
+}
 
+void AGoKart::SetKartVelocity(float AxisValue) {
+	KartVelocity = GetActorForwardVector() * AxisValue * MaxKartVelocity;
+}
+
+void AGoKart::MoveKart(float DeltaTime) {
+	FVector Translation = KartVelocity * 100 * DeltaTime;
+	AddActorWorldOffset(Translation);
 }
 
