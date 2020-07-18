@@ -29,6 +29,14 @@ protected:
 	void MoveKart(float DeltaTime);
 
 protected:
-	float MaxKartVelocity = 20.f;
+	//Mass in kg
+	UPROPERTY(EditAnywhere)
+	float KartMass = 1000.f;
+
+	//Max driving force applied to car (N)
+	UPROPERTY(EditAnywhere)
+	float MaxDrivingForce = 10000.f;
+
+	float Throttle;
 	FVector KartVelocity;
 };

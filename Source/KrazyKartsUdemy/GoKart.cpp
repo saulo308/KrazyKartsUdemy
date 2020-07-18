@@ -24,6 +24,7 @@ void AGoKart::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	//Moving Kart
 	MoveKart(DeltaTime);
+	UE_LOG(LogTemp, Warning, TEXT("Hello"));
 }
 
 // Called to bind functionality to input
@@ -34,11 +35,27 @@ void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 void AGoKart::SetKartVelocity(float AxisValue) {
-	KartVelocity = GetActorForwardVector() * AxisValue * MaxKartVelocity;
+	//Keeping a member variable to determine ("how much should we apply to driving force") [-1 <=> 1]
+	Throttle = AxisValue;
 }
 
 void AGoKart::MoveKart(float DeltaTime) {
-	FVector Translation = KartVelocity * 100 * DeltaTime;
+	//Calculating the force that will drive the kart
+	//GetActorForwardVector() determines the direction of movement(Forward in this case)
+	//(Throttle * MaxDrivingForce determines) how "strong" our force to apply is (from -1 [full backwards force] to 1 [full forward force])
+	FVector ForceToApply = GetActorForwardVector() * (Throttle * MaxDrivingForce);
+
+	//Calculating kart's acceleration: F = m * a   =>   a = F/m
+	auto Acceleration = ForceToApply / KartMass;
+
+	//Calculating kart's velocity: a = dv/dt   =>   dv = a * dt
+	//However, we could already have a velocity, so "KartVelocity +="
+	KartVelocity += Acceleration * DeltaTime;
+
+	//Calculating translation( * 100 to make it cm/s to m/s)
+	FVector Translation = KartVelocity * DeltaTime * 100;
+
+	//Translating
 	AddActorWorldOffset(Translation);
 }
 
