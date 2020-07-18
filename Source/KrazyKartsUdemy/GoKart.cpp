@@ -24,6 +24,8 @@ void AGoKart::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	//Moving Kart
 	MoveKart(DeltaTime);
+	//Rotating kart
+	RotateKart(DeltaTime);
 }
 
 // Called to bind functionality to input
@@ -31,11 +33,16 @@ void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis("MoveForward",this,&AGoKart::SetKartVelocity);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AGoKart::SetKartSteer);
 }
 
 void AGoKart::SetKartVelocity(float AxisValue) {
 	//Keeping a member variable to determine ("how much should we apply to driving force") [-1 <=> 1]
 	Throttle = AxisValue;
+}
+
+void AGoKart::SetKartSteer(float AxisValue) {
+	SteeringThrow = AxisValue;
 }
 
 void AGoKart::MoveKart(float DeltaTime) {
@@ -59,5 +66,19 @@ void AGoKart::MoveKart(float DeltaTime) {
 	AddActorWorldOffset(Translation,true, &HitResult);
 	if (HitResult.IsValidBlockingHit())
 		KartVelocity = FVector::ZeroVector;
+}
+
+void AGoKart::RotateKart(float DeltaTime) {
+	//SteeringThrow gives how much should we rotate (-1 <=> 1)
+	float DegreesToRotate = MaxRotationDegreesPerSecond * SteeringThrow * DeltaTime;
+
+	//Creating DeltaRotation quaternion
+	FQuat DeltaRotation = FQuat(GetActorUpVector(), FMath::DegreesToRadians(DegreesToRotate));
+
+	//Upadating velocity due to rotation
+	KartVelocity = DeltaRotation.RotateVector(KartVelocity);
+
+	//Applying rotation
+	AddActorWorldRotation(DeltaRotation);
 }
 

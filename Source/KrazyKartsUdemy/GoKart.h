@@ -26,7 +26,11 @@ protected:
 	virtual void BeginPlay() override;
 	UFUNCTION()
 	void SetKartVelocity(float AxisValue);
+	UFUNCTION()
+	void SetKartSteer(float AxisValue);
+
 	void MoveKart(float DeltaTime);
+	void RotateKart(float DeltaTime);
 
 protected:
 	//Mass in kg
@@ -37,6 +41,11 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float MaxDrivingForce = 10000.f;
 
+	//Max degress per second to rotate
+	UPROPERTY(EditAnywhere)
+	float MaxRotationDegreesPerSecond = 90.f;
+
 	float Throttle;
+	float SteeringThrow;
 	FVector KartVelocity;
 };
