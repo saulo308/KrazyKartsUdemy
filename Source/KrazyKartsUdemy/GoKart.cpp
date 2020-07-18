@@ -51,6 +51,9 @@ void AGoKart::MoveKart(float DeltaTime) {
 	//(Throttle * MaxDrivingForce determines) how "strong" our force to apply is (from -1 [full backwards force] to 1 [full forward force])
 	FVector ForceToApply = GetActorForwardVector() * (Throttle * MaxDrivingForce);
 
+	//Getting AirResistance
+	ForceToApply += GetResistance();
+
 	//Calculating kart's acceleration: F = m * a   =>   a = F/m
 	auto Acceleration = ForceToApply / KartMass;
 
@@ -66,6 +69,12 @@ void AGoKart::MoveKart(float DeltaTime) {
 	AddActorWorldOffset(Translation,true, &HitResult);
 	if (HitResult.IsValidBlockingHit())
 		KartVelocity = FVector::ZeroVector;
+}
+
+FVector AGoKart::GetResistance() {
+	//AirResistance = -Speed^2 * DragCoeficient
+	//Minus here is been represented by "-KartVelocity.GetSafeNormal()"==Oposite direction of movement
+	return -KartVelocity.GetSafeNormal() * KartVelocity.SizeSquared() * DragCoeficient;
 }
 
 void AGoKart::RotateKart(float DeltaTime) {

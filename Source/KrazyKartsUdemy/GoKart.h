@@ -31,11 +31,15 @@ protected:
 
 	void MoveKart(float DeltaTime);
 	void RotateKart(float DeltaTime);
+	FVector GetResistance();
 
 protected:
 	//Mass in kg
 	UPROPERTY(EditAnywhere)
 	float KartMass = 1000.f;
+	//Drag coefficient
+	UPROPERTY(EditAnywhere)
+	float DragCoeficient = 16.f;
 
 	//Max driving force applied to car (N)
 	UPROPERTY(EditAnywhere)
