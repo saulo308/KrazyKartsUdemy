@@ -24,7 +24,6 @@ void AGoKart::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	//Moving Kart
 	MoveKart(DeltaTime);
-	UE_LOG(LogTemp, Warning, TEXT("Hello"));
 }
 
 // Called to bind functionality to input
@@ -56,6 +55,9 @@ void AGoKart::MoveKart(float DeltaTime) {
 	FVector Translation = KartVelocity * DeltaTime * 100;
 
 	//Translating
-	AddActorWorldOffset(Translation);
+	FHitResult HitResult;
+	AddActorWorldOffset(Translation,true, &HitResult);
+	if (HitResult.IsValidBlockingHit())
+		KartVelocity = FVector::ZeroVector;
 }
 
