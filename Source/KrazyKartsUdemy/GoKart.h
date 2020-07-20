@@ -24,8 +24,14 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	//Forward Movement
+	void MoveForward(float AxisValue);
 	UFUNCTION(Server, Reliable, WithValidation)
 	void ServerMoveForward(float AxisValue);
+
+	//Right Movement
+	void MoveRight(float AxisValue);
 	UFUNCTION(Server, Reliable, WithValidation)
 	void ServerMoveRight(float AxisValue);
 
