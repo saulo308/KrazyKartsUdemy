@@ -33,16 +33,24 @@ void AGoKart::Tick(float DeltaTime)
 void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAxis("MoveForward",this,&AGoKart::SetKartVelocity);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AGoKart::SetKartSteer);
+	PlayerInputComponent->BindAxis("MoveForward",this,&AGoKart::ServerMoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AGoKart::ServerMoveRight);
 }
 
-void AGoKart::SetKartVelocity(float AxisValue) {
+bool AGoKart::ServerMoveForward_Validate(float AxisValue) {
+	return FMath::Abs(AxisValue) <= 1;
+}
+
+void AGoKart::ServerMoveForward_Implementation(float AxisValue) {
 	//Keeping a member variable to determine ("how much should we apply to driving force") [-1 <=> 1]
 	Throttle = AxisValue;
 }
 
-void AGoKart::SetKartSteer(float AxisValue) {
+bool AGoKart::ServerMoveRight_Validate(float AxisValue) {
+	return FMath::Abs(AxisValue) <= 1;
+}
+
+void AGoKart::ServerMoveRight_Implementation(float AxisValue) {
 	SteeringThrow = AxisValue;
 }
 

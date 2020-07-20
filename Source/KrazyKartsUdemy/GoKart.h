@@ -24,10 +24,10 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	UFUNCTION()
-	void SetKartVelocity(float AxisValue);
-	UFUNCTION()
-	void SetKartSteer(float AxisValue);
+	UFUNCTION(Server, Reliable, WithValidation)
+	void ServerMoveForward(float AxisValue);
+	UFUNCTION(Server, Reliable, WithValidation)
+	void ServerMoveRight(float AxisValue);
 
 	void MoveKart(float DeltaTime);
 	void RotateKart(float DeltaTime);
