@@ -31,7 +31,8 @@ protected:
 
 	void MoveKart(float DeltaTime);
 	void RotateKart(float DeltaTime);
-	FVector GetResistance();
+	FVector GetAirResistance();
+	FVector GetRollingResistance();
 
 protected:
 	//Mass in kg
@@ -39,7 +40,10 @@ protected:
 	float KartMass = 1000.f;
 	//Drag coefficient
 	UPROPERTY(EditAnywhere)
-	float DragCoeficient = 16.f;
+	float DragCoeficient = 16.f;//Drag coefficient
+	//Rolling Coefficient
+	UPROPERTY(EditAnywhere)
+	float RollingCoeficient = 0.015f;
 
 	//Max driving force applied to car (N)
 	UPROPERTY(EditAnywhere)

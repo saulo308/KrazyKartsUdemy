@@ -2,6 +2,7 @@
 
 
 #include "GoKart.h"
+#include "Engine/World.h"
 
 // Sets default values
 AGoKart::AGoKart()
@@ -52,7 +53,10 @@ void AGoKart::MoveKart(float DeltaTime) {
 	FVector ForceToApply = GetActorForwardVector() * (Throttle * MaxDrivingForce);
 
 	//Getting AirResistance
-	ForceToApply += GetResistance();
+	ForceToApply += GetAirResistance();
+
+	//Rolling resistance
+	ForceToApply += GetRollingResistance();
 
 	//Calculating kart's acceleration: F = m * a   =>   a = F/m
 	auto Acceleration = ForceToApply / KartMass;
@@ -71,10 +75,18 @@ void AGoKart::MoveKart(float DeltaTime) {
 		KartVelocity = FVector::ZeroVector;
 }
 
-FVector AGoKart::GetResistance() {
+FVector AGoKart::GetAirResistance() {
 	//AirResistance = -Speed^2 * DragCoeficient
 	//Minus here is been represented by "-KartVelocity.GetSafeNormal()"==Oposite direction of movement
 	return -KartVelocity.GetSafeNormal() * KartVelocity.SizeSquared() * DragCoeficient;
+}
+
+FVector AGoKart::GetRollingResistance() {
+	float Gravity = -GetWorld()->GetGravityZ() / 100.f;
+	//N = m x g
+	float NormalForce = KartMass * Gravity;
+	//Fres = RollingCoef * N
+	return -KartVelocity.GetSafeNormal() * RollingCoeficient * NormalForce;
 }
 
 void AGoKart::RotateKart(float DeltaTime) {
