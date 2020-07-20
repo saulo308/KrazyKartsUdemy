@@ -49,9 +49,9 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float MaxDrivingForce = 10000.f;
 
-	//Max degress per second to rotate
+	//MinRadius to steer the kart
 	UPROPERTY(EditAnywhere)
-	float MaxRotationDegreesPerSecond = 90.f;
+	float MinTurningRadius = 10.f;
 
 	float Throttle;
 	float SteeringThrow;

@@ -90,11 +90,13 @@ FVector AGoKart::GetRollingResistance() {
 }
 
 void AGoKart::RotateKart(float DeltaTime) {
-	//SteeringThrow gives how much should we rotate (-1 <=> 1)
-	float DegreesToRotate = MaxRotationDegreesPerSecond * SteeringThrow * DeltaTime;
+	//dx = dv * dt
+	float DeltaLocation = FVector::DotProduct(GetActorForwardVector(),KartVelocity) * DeltaTime;
+	//dx = d0 * r ==> d0 = dx / r
+	float RotationDelta = (DeltaLocation / MinTurningRadius) * SteeringThrow;
 
 	//Creating DeltaRotation quaternion
-	FQuat DeltaRotation = FQuat(GetActorUpVector(), FMath::DegreesToRadians(DegreesToRotate));
+	FQuat DeltaRotation = FQuat(GetActorUpVector(), RotationDelta);
 
 	//Upadating velocity due to rotation
 	KartVelocity = DeltaRotation.RotateVector(KartVelocity);
