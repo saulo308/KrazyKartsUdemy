@@ -64,8 +64,9 @@ protected:
 	float SteeringThrow;
 	FVector KartVelocity;
 
-	UPROPERTY(replicated)
-	FVector ReplicatedLocation;
-	UPROPERTY(replicated)
-	FRotator ReplicatedRotator;
+	UPROPERTY(ReplicatedUsing=OnRep_OnReplicatedTransform)
+	FTransform ReplicatedTransform;
+
+	UFUNCTION()
+	void OnRep_OnReplicatedTransform();
 };

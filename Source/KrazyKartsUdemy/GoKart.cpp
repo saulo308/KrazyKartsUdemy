@@ -37,19 +37,18 @@ void AGoKart::Tick(float DeltaTime)
 	RotateKart(DeltaTime);
 
 	//Replicating location
-	if(HasAuthority()){
-		ReplicatedLocation = GetActorLocation();
-		ReplicatedRotator = GetActorRotation();
-	}else{
-		SetActorLocation(ReplicatedLocation);
-		SetActorRotation(ReplicatedRotator);
-	}
+	if(HasAuthority())
+		ReplicatedTransform = GetActorTransform();
+}
+
+void AGoKart::OnRep_OnReplicatedTransform(){
+	SetActorTransform(ReplicatedTransform);
 }
 
 void AGoKart::GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifetimeProps ) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-    DOREPLIFETIME(AGoKart, ReplicatedLocation);
+    DOREPLIFETIME(AGoKart, ReplicatedTransform);
 }
 
 void AGoKart::MoveForward(float AxisValue) {
