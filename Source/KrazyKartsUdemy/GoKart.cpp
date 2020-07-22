@@ -9,7 +9,15 @@ AGoKart::AGoKart()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	bReplicates = true;
+}
 
+// Called to bind functionality to input
+void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	PlayerInputComponent->BindAxis("MoveForward",this,&AGoKart::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AGoKart::MoveRight);
 }
 
 // Called when the game starts or when spawned
@@ -27,14 +35,21 @@ void AGoKart::Tick(float DeltaTime)
 	MoveKart(DeltaTime);
 	//Rotating kart
 	RotateKart(DeltaTime);
+
+	//Replicating location
+	if(HasAuthority()){
+		ReplicatedLocation = GetActorLocation();
+		ReplicatedRotator = GetActorRotation();
+	}else{
+		SetActorLocation(ReplicatedLocation);
+		SetActorRotation(ReplicatedRotator);
+	}
 }
 
-// Called to bind functionality to input
-void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AGoKart::GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifetimeProps ) const
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAxis("MoveForward",this,&AGoKart::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AGoKart::MoveRight);
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+    DOREPLIFETIME(AGoKart, ReplicatedLocation);
 }
 
 void AGoKart::MoveForward(float AxisValue) {

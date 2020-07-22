@@ -1,0 +1,707 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "KrazyKartsUdemy Win32 Debug Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Debug",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 Debug Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Debug",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemy Win32 Debug Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 Debug Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Debug",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 DebugGame Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"DebugGame",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 DebugGame Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"DebugGame",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemy Win32 DebugGame Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 DebugGame Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"DebugGame",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 Development Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Development",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 Development Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Development",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemy Win32 Development Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 Development Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Development",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 Shipping Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Shipping",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 Shipping Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Shipping",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemy Win32 Shipping Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 Shipping Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Shipping",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 Test Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Test",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 Test Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Test",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemy Win32 Test Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win32 Test Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win32",
+				"Test",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Debug Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Debug",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Debug Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Debug",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemy Win64 Debug Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Debug Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Debug",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 DebugGame Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"DebugGame",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 DebugGame Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"DebugGame",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemy Win64 DebugGame Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 DebugGame Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"DebugGame",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Development Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Development",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Development Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Development",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemy Win64 Development Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Development Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Development",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Shipping Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Shipping",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Shipping Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Shipping",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemy Win64 Shipping Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Shipping Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Shipping",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Test Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Test",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Test Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Test",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemy Win64 Test Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemy Win64 Test Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemy",
+				"Win64",
+				"Test",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemyEditor Win64 Debug Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemyEditor",
+				"Win64",
+				"Debug",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemyEditor Win64 Debug Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemyEditor",
+				"Win64",
+				"Debug",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemyEditor Win64 Debug Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemyEditor Win64 Debug Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemyEditor",
+				"Win64",
+				"Debug",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemyEditor Win64 DebugGame Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemyEditor",
+				"Win64",
+				"DebugGame",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemyEditor Win64 DebugGame Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemyEditor",
+				"Win64",
+				"DebugGame",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemyEditor Win64 DebugGame Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemyEditor Win64 DebugGame Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemyEditor",
+				"Win64",
+				"DebugGame",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemyEditor Win64 Development Build",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemyEditor",
+				"Win64",
+				"Development",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemyEditor Win64 Development Rebuild",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Build.bat",
+			"args": [
+				"KrazyKartsUdemyEditor",
+				"Win64",
+				"Development",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"dependsOn": [
+				"KrazyKartsUdemyEditor Win64 Development Clean"
+			],
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		},
+		{
+			"label": "KrazyKartsUdemyEditor Win64 Development Clean",
+			"group": "build",
+			"command": "Engine\\Build\\BatchFiles\\Clean.bat",
+			"args": [
+				"KrazyKartsUdemyEditor",
+				"Win64",
+				"Development",
+				"D:\\UnrealProjects\\KrazyKartsUdemy\\KrazyKartsUdemy.uproject",
+				"-waitmutex"
+			],
+			"problemMatcher": "$msCompile",
+			"type": "shell",
+			"options": {
+				"cwd": "C:\\Program Files\\Epic Games\\UE_4.24"
+			}
+		}
+	]
+}

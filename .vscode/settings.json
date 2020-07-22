@@ -1,0 +1,9 @@
+{
+	"files.exclude": {
+		"D:/UnrealProjects/KrazyKartsUdemy/.git": true,
+		"D:/UnrealProjects/KrazyKartsUdemy/.vscode": true,
+		"D:/UnrealProjects/KrazyKartsUdemy/Content": true,
+		"D:/UnrealProjects/KrazyKartsUdemy/Intermediate": true,
+		"D:/UnrealProjects/KrazyKartsUdemy/Saved": true
+	}
+}

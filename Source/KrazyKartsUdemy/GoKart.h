@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Net/UnrealNetwork.h"
 #include "GoKart.generated.h"
 
 UCLASS()
@@ -62,4 +63,9 @@ protected:
 	float Throttle;
 	float SteeringThrow;
 	FVector KartVelocity;
+
+	UPROPERTY(replicated)
+	FVector ReplicatedLocation;
+	UPROPERTY(replicated)
+	FRotator ReplicatedRotator;
 };
