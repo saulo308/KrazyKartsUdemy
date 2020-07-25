@@ -60,8 +60,12 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float MinTurningRadius = 10.f;
 
+	UPROPERTY(Replicated)
 	float Throttle;
+	UPROPERTY(Replicated)
 	float SteeringThrow;
+
+	UPROPERTY(Replicated)
 	FVector KartVelocity;
 
 	UPROPERTY(ReplicatedUsing=OnRep_OnReplicatedTransform)

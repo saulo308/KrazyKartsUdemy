@@ -24,7 +24,9 @@ void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void AGoKart::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if(HasAuthority())
+		NetUpdateFrequency = 1;
 }
 
 // Called every frame
@@ -49,6 +51,9 @@ void AGoKart::GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifet
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     DOREPLIFETIME(AGoKart, ReplicatedTransform);
+	DOREPLIFETIME(AGoKart, KartVelocity);
+	DOREPLIFETIME(AGoKart, Throttle);
+	DOREPLIFETIME(AGoKart, SteeringThrow);
 }
 
 void AGoKart::MoveForward(float AxisValue) {
