@@ -54,18 +54,17 @@ protected:
 
 	//Forward Movement
 	void MoveForward(float AxisValue);
-/* 	UFUNCTION(Server, Reliable, WithValidation)
-	void ServerMoveForward(float AxisValue); */
 
 	//Right Movement
 	void MoveRight(float AxisValue);
-	/* UFUNCTION(Server, Reliable, WithValidation)
-	void ServerMoveRight(float AxisValue); */
 
-	void MoveKart(float DeltaTime);
-	void RotateKart(float DeltaTime);
+	void MoveKart(float DeltaTime, float InThrow);
+	void RotateKart(float DeltaTime, float InSteerThrow);
 	FVector GetAirResistance();
 	FVector GetRollingResistance();
+
+private:
+	void SimulateMove(FGoKartMove Move);
 
 protected:
 	//Mass in kg
@@ -87,9 +86,7 @@ protected:
 	float MinTurningRadius = 10.f;
 
 	//Movement properties
-	UPROPERTY()
 	float Throttle;
-	UPROPERTY()
 	float SteeringThrow;
 	UPROPERTY()
 	FVector KartVelocity;

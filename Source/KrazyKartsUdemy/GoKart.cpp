@@ -40,20 +40,18 @@ void AGoKart::Tick(float DeltaTime)
 		NewMove.SteeringThrow = SteeringThrow;
 		NewMove.DeltaTime = DeltaTime;
 		//KartMove.Time = ?;
+
+		//Applying movement on client(AutonomusProxy)
 		ServerApplyKartMove(NewMove);
+		SimulateMove(NewMove);
 	}
+}
 
+void AGoKart::SimulateMove(FGoKartMove Move){
 	//Moving Kart
-	MoveKart(DeltaTime);
+	MoveKart(Move.DeltaTime,Move.Throw);
 	//Rotating kart
-	RotateKart(DeltaTime);
-
-	//Replicating location
-	if(HasAuthority()){
-		ServerState.Transform = GetActorTransform();
-		ServerState.KartVelocity = KartVelocity;
-		//ServerState.LastMove = KartMove;
-	}
+	RotateKart(Move.DeltaTime,Move.SteeringThrow);
 }
 
 bool AGoKart::ServerApplyKartMove_Validate(FGoKartMove InKartMove){
@@ -63,8 +61,13 @@ bool AGoKart::ServerApplyKartMove_Validate(FGoKartMove InKartMove){
 }
 
 void AGoKart::ServerApplyKartMove_Implementation(FGoKartMove InKartMove){
-	Throttle = InKartMove.Throw;
-	SteeringThrow = InKartMove.SteeringThrow;
+	//Received move done by client, simulate it
+	SimulateMove(InKartMove);
+
+	//Update the server state and send back to client(Due to replication)
+	ServerState.Transform = GetActorTransform();
+	ServerState.KartVelocity = KartVelocity;
+	ServerState.LastMove = InKartMove;
 }
 
 void AGoKart::OnRep_OnReplicatedServerState(){
@@ -88,11 +91,11 @@ void AGoKart::MoveRight(float AxisValue) {
 	SteeringThrow = AxisValue;
 }
 
-void AGoKart::MoveKart(float DeltaTime) {
+void AGoKart::MoveKart(float DeltaTime,float InThrow) {
 	//Calculating the force that will drive the kart
 	//GetActorForwardVector() determines the direction of movement(Forward in this case)
-	//(Throttle * MaxDrivingForce determines) how "strong" our force to apply is (from -1 [full backwards force] to 1 [full forward force])
-	FVector ForceToApply = GetActorForwardVector() * (Throttle * MaxDrivingForce);
+	//(InThrow * MaxDrivingForce determines) how "strong" our force to apply is (from -1 [full backwards force] to 1 [full forward force])
+	FVector ForceToApply = GetActorForwardVector() * (InThrow * MaxDrivingForce);
 
 	//Getting AirResistance
 	ForceToApply += GetAirResistance();
@@ -131,11 +134,11 @@ FVector AGoKart::GetRollingResistance() {
 	return -KartVelocity.GetSafeNormal() * RollingCoeficient * NormalForce;
 }
 
-void AGoKart::RotateKart(float DeltaTime) {
+void AGoKart::RotateKart(float DeltaTime,float InSteerThrow) {
 	//dx = dv * dt
 	float DeltaLocation = FVector::DotProduct(GetActorForwardVector(),KartVelocity) * DeltaTime;
 	//dx = d0 * r ==> d0 = dx / r
-	float RotationDelta = (DeltaLocation / MinTurningRadius) * SteeringThrow;
+	float RotationDelta = (DeltaLocation / MinTurningRadius) * InSteerThrow;
 
 	//Creating DeltaRotation quaternion
 	FQuat DeltaRotation = FQuat(GetActorUpVector(), RotationDelta);
