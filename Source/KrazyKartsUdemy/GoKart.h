@@ -7,6 +7,32 @@
 #include "Net/UnrealNetwork.h"
 #include "GoKart.generated.h"
 
+USTRUCT()
+struct FGoKartMove{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	float Throw;
+	UPROPERTY()
+	float SteeringThrow;
+	UPROPERTY()
+	float DeltaTime;
+	UPROPERTY()
+	float Time;
+};
+
+USTRUCT()
+struct FGoKartState{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	FVector KartVelocity;
+	UPROPERTY()
+	FTransform Transform;
+	UPROPERTY()
+	FGoKartMove LastMove;
+};
+
 UCLASS()
 class KRAZYKARTSUDEMY_API AGoKart : public APawn
 {
