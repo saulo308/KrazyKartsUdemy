@@ -3,6 +3,7 @@
 
 #include "GoKart.h"
 #include "Engine/World.h"
+#include "GameFramework/GameStateBase.h"
 
 // Sets default values
 AGoKart::AGoKart()
@@ -41,9 +42,8 @@ void AGoKart::Tick(float DeltaTime)
 		if(!HasAuthority()){
 			//Adding to list of movement
 			UnacknowledgedMoves.Add(CurrentMove);
-			UE_LOG(LogTemp,Warning,TEXT("%d"),UnacknowledgedMoves.Num());
 		}
-		
+
 		//Applying movement on server
 		ServerApplyKartMove(CurrentMove);
 		//Applying movement locally
@@ -56,7 +56,7 @@ FGoKartMove AGoKart::CreateMove(float DeltaTime){
 	NewMove.Throw = Throttle;
 	NewMove.SteeringThrow = SteeringThrow;
 	NewMove.DeltaTime = DeltaTime;
-	NewMove.Time = GetWorld()->TimeSeconds;
+	NewMove.Time = GetWorld()->GetGameState()->GetServerWorldTimeSeconds();
 
 	return NewMove;
 }
@@ -72,7 +72,7 @@ void AGoKart::ClearAcknowledgedMoves(FGoKartMove LastMove){
 	UnacknowledgedMoves = NewMoves;
 }
 
-void AGoKart::SimulateMove(FGoKartMove Move){
+void AGoKart::SimulateMove(const FGoKartMove& Move){
 	//Moving Kart
 	MoveKart(Move.DeltaTime,Move.Throw);
 	//Rotating kart
@@ -96,9 +96,17 @@ void AGoKart::ServerApplyKartMove_Implementation(FGoKartMove InKartMove){
 }
 
 void AGoKart::OnRep_OnReplicatedServerState(){
+	//Reseting to server state(position)
 	SetActorTransform(ServerState.Transform);
 	KartVelocity = ServerState.KartVelocity;
+
+	//Clearing moves stored that are not valid(expired)
 	ClearAcknowledgedMoves(ServerState.LastMove);
+
+	//For moves which client is ahead of server, replay all of them.
+	for(const FGoKartMove& Move : UnacknowledgedMoves){
+		SimulateMove(Move);
+	}
 }
 
 void AGoKart::GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifetimeProps ) const
