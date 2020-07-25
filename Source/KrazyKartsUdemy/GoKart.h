@@ -54,13 +54,13 @@ protected:
 
 	//Forward Movement
 	void MoveForward(float AxisValue);
-	UFUNCTION(Server, Reliable, WithValidation)
-	void ServerMoveForward(float AxisValue);
+/* 	UFUNCTION(Server, Reliable, WithValidation)
+	void ServerMoveForward(float AxisValue); */
 
 	//Right Movement
 	void MoveRight(float AxisValue);
-	UFUNCTION(Server, Reliable, WithValidation)
-	void ServerMoveRight(float AxisValue);
+	/* UFUNCTION(Server, Reliable, WithValidation)
+	void ServerMoveRight(float AxisValue); */
 
 	void MoveKart(float DeltaTime);
 	void RotateKart(float DeltaTime);
@@ -86,17 +86,23 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float MinTurningRadius = 10.f;
 
-	UPROPERTY(Replicated)
+	//Movement properties
+	UPROPERTY()
 	float Throttle;
-	UPROPERTY(Replicated)
+	UPROPERTY()
 	float SteeringThrow;
-
-	UPROPERTY(Replicated)
+	UPROPERTY()
 	FVector KartVelocity;
 
-	UPROPERTY(ReplicatedUsing=OnRep_OnReplicatedTransform)
-	FTransform ReplicatedTransform;
+	//GoKart current move (Used to apply movement and send it to server to also apply it)
+	UPROPERTY()
+	FGoKartMove KartMove;
+	UFUNCTION(Server, Reliable, WithValidation)
+	void ServerApplyKartMove(FGoKartMove InKartMove);
 
+	//ServerState(This will be sent by the server down to the clients)
+	UPROPERTY(ReplicatedUsing=OnRep_OnReplicatedServerState)
+	FGoKartState ServerState;
 	UFUNCTION()
-	void OnRep_OnReplicatedTransform();
+	void OnRep_OnReplicatedServerState();
 };

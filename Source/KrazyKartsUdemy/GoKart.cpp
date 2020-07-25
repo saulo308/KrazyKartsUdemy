@@ -33,55 +33,58 @@ void AGoKart::BeginPlay()
 void AGoKart::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if(IsLocallyControlled()){
+		FGoKartMove NewMove;
+		NewMove.Throw = Throttle;
+		NewMove.SteeringThrow = SteeringThrow;
+		NewMove.DeltaTime = DeltaTime;
+		//KartMove.Time = ?;
+		ServerApplyKartMove(NewMove);
+	}
+
 	//Moving Kart
 	MoveKart(DeltaTime);
 	//Rotating kart
 	RotateKart(DeltaTime);
 
 	//Replicating location
-	if(HasAuthority())
-		ReplicatedTransform = GetActorTransform();
+	if(HasAuthority()){
+		ServerState.Transform = GetActorTransform();
+		ServerState.KartVelocity = KartVelocity;
+		//ServerState.LastMove = KartMove;
+	}
 }
 
-void AGoKart::OnRep_OnReplicatedTransform(){
-	SetActorTransform(ReplicatedTransform);
+bool AGoKart::ServerApplyKartMove_Validate(FGoKartMove InKartMove){
+	bool bValidForward = FMath::Abs(InKartMove.Throw) <= 1;
+	bool bValidSteer = FMath::Abs(InKartMove.SteeringThrow) <= 1;
+	return true;
+}
+
+void AGoKart::ServerApplyKartMove_Implementation(FGoKartMove InKartMove){
+	Throttle = InKartMove.Throw;
+	SteeringThrow = InKartMove.SteeringThrow;
+}
+
+void AGoKart::OnRep_OnReplicatedServerState(){
+	SetActorTransform(ServerState.Transform);
+	KartVelocity = ServerState.KartVelocity;
 }
 
 void AGoKart::GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifetimeProps ) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-    DOREPLIFETIME(AGoKart, ReplicatedTransform);
-	DOREPLIFETIME(AGoKart, KartVelocity);
-	DOREPLIFETIME(AGoKart, Throttle);
-	DOREPLIFETIME(AGoKart, SteeringThrow);
+    DOREPLIFETIME(AGoKart, ServerState);
 }
 
 void AGoKart::MoveForward(float AxisValue) {
-	//Keeping a member variable to determine ("how much should we apply to driving force") [-1 <=> 1]
-	Throttle = AxisValue;
-	ServerMoveForward(Throttle);
-}
-
-bool AGoKart::ServerMoveForward_Validate(float AxisValue) {
-	return FMath::Abs(AxisValue) <= 1;
-}
-
-void AGoKart::ServerMoveForward_Implementation(float AxisValue) {
 	//Keeping a member variable to determine ("how much should we apply to driving force") [-1 <=> 1]
 	Throttle = AxisValue;
 }
 
 void AGoKart::MoveRight(float AxisValue) {
 	//Keeping a member variable to determine ("how much should we apply to driving force") [-1 <=> 1]
-	SteeringThrow = AxisValue;
-	ServerMoveRight(SteeringThrow);
-}
-
-bool AGoKart::ServerMoveRight_Validate(float AxisValue) {
-	return FMath::Abs(AxisValue) <= 1;
-}
-
-void AGoKart::ServerMoveRight_Implementation(float AxisValue) {
 	SteeringThrow = AxisValue;
 }
 
