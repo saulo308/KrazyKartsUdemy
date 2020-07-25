@@ -35,19 +35,26 @@ void AGoKart::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(IsLocallyControlled()){
+	if(Role == ROLE_AutonomousProxy){
 		//Creating movement
 		FGoKartMove CurrentMove = CreateMove(DeltaTime);
-
-		if(!HasAuthority()){
-			//Adding to list of movement
-			UnacknowledgedMoves.Add(CurrentMove);
-		}
-
+		//Adding to list of movement
+		UnacknowledgedMoves.Add(CurrentMove);
 		//Applying movement on server
 		ServerApplyKartMove(CurrentMove);
 		//Applying movement locally
 		SimulateMove(CurrentMove);
+	}
+
+	if(Role == ROLE_Authority && IsLocallyControlled()){
+		//Creating movement
+		FGoKartMove CurrentMove = CreateMove(DeltaTime);
+		//Applying movement on server
+		ServerApplyKartMove(CurrentMove);
+	}
+
+	if(Role == ROLE_SimulatedProxy){
+		SimulateMove(ServerState.LastMove);
 	}
 }
 
