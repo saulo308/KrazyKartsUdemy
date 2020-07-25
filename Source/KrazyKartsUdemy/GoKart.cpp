@@ -35,16 +35,41 @@ void AGoKart::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	if(IsLocallyControlled()){
-		FGoKartMove NewMove;
-		NewMove.Throw = Throttle;
-		NewMove.SteeringThrow = SteeringThrow;
-		NewMove.DeltaTime = DeltaTime;
-		//KartMove.Time = ?;
+		//Creating movement
+		FGoKartMove CurrentMove = CreateMove(DeltaTime);
 
-		//Applying movement on client(AutonomusProxy)
-		ServerApplyKartMove(NewMove);
-		SimulateMove(NewMove);
+		if(!HasAuthority()){
+			//Adding to list of movement
+			UnacknowledgedMoves.Add(CurrentMove);
+			UE_LOG(LogTemp,Warning,TEXT("%d"),UnacknowledgedMoves.Num());
+		}
+		
+		//Applying movement on server
+		ServerApplyKartMove(CurrentMove);
+		//Applying movement locally
+		SimulateMove(CurrentMove);
 	}
+}
+
+FGoKartMove AGoKart::CreateMove(float DeltaTime){
+	FGoKartMove NewMove;
+	NewMove.Throw = Throttle;
+	NewMove.SteeringThrow = SteeringThrow;
+	NewMove.DeltaTime = DeltaTime;
+	NewMove.Time = GetWorld()->TimeSeconds;
+
+	return NewMove;
+}
+
+void AGoKart::ClearAcknowledgedMoves(FGoKartMove LastMove){
+	TArray<FGoKartMove> NewMoves;
+
+	for(const FGoKartMove& Move : UnacknowledgedMoves){
+		if(Move.Time > LastMove.Time)
+			NewMoves.Add(Move);
+	}
+
+	UnacknowledgedMoves = NewMoves;
 }
 
 void AGoKart::SimulateMove(FGoKartMove Move){
@@ -73,6 +98,7 @@ void AGoKart::ServerApplyKartMove_Implementation(FGoKartMove InKartMove){
 void AGoKart::OnRep_OnReplicatedServerState(){
 	SetActorTransform(ServerState.Transform);
 	KartVelocity = ServerState.KartVelocity;
+	ClearAcknowledgedMoves(ServerState.LastMove);
 }
 
 void AGoKart::GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifetimeProps ) const

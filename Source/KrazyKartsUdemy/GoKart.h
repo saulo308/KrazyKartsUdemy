@@ -65,6 +65,8 @@ protected:
 
 private:
 	void SimulateMove(FGoKartMove Move);
+	FGoKartMove CreateMove(float DeltaTime);
+	void ClearAcknowledgedMoves(FGoKartMove LastMove);
 
 protected:
 	//Mass in kg
@@ -102,4 +104,7 @@ protected:
 	FGoKartState ServerState;
 	UFUNCTION()
 	void OnRep_OnReplicatedServerState();
+
+	//Replay movement system
+	TArray<FGoKartMove> UnacknowledgedMoves;
 };
