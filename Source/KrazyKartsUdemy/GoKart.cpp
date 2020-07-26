@@ -2,8 +2,6 @@
 
 
 #include "GoKart.h"
-/* #include "Engine/World.h"
-#include "GameFramework/GameStateBase.h" */
 
 // Sets default values
 AGoKart::AGoKart()
@@ -12,8 +10,9 @@ AGoKart::AGoKart()
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
 
-	//MovementComponent
+	//Componentes
 	MovementComponent = CreateDefaultSubobject<UGoKartMovementComponent>(FName("GoKartMovementComponent"));
+	MovementReplicator = CreateDefaultSubobject<UGoKartMovementReplicator>(FName("GoKartMovementReplicator"));
 }
 
 // Called to bind functionality to input
@@ -37,81 +36,6 @@ void AGoKart::BeginPlay()
 void AGoKart::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if(!MovementComponent) return;
-
-	if(Role == ROLE_AutonomousProxy){
-		//Creating movement
-		FGoKartMove CurrentMove = MovementComponent->CreateMove(DeltaTime);
-		//Adding to list of movement
-		UnacknowledgedMoves.Add(CurrentMove);
-		//Applying movement on server
-		ServerApplyKartMove(CurrentMove);
-		//Applying movement locally
-		MovementComponent->SimulateMove(CurrentMove);
-	}
-
-	if(Role == ROLE_Authority && IsLocallyControlled()){
-		//Creating movement
-		FGoKartMove CurrentMove = MovementComponent->CreateMove(DeltaTime);
-		//Applying movement on server
-		ServerApplyKartMove(CurrentMove);
-	}
-
-	if(Role == ROLE_SimulatedProxy){
-		MovementComponent->SimulateMove(ServerState.LastMove);
-	}
-}
-
-void AGoKart::ClearAcknowledgedMoves(FGoKartMove LastMove){
-	TArray<FGoKartMove> NewMoves;
-
-	for(const FGoKartMove& Move : UnacknowledgedMoves){
-		if(Move.Time > LastMove.Time)
-			NewMoves.Add(Move);
-	}
-
-	UnacknowledgedMoves = NewMoves;
-}
-
-bool AGoKart::ServerApplyKartMove_Validate(FGoKartMove InKartMove){
-	bool bValidForward = FMath::Abs(InKartMove.Throw) <= 1;
-	bool bValidSteer = FMath::Abs(InKartMove.SteeringThrow) <= 1;
-	return true;
-}
-
-void AGoKart::ServerApplyKartMove_Implementation(FGoKartMove InKartMove){
-	if(!MovementComponent) return;
-
-	//Received move done by client, simulate it
-	MovementComponent->SimulateMove(InKartMove);
-
-	//Update the server state and send back to client(Due to replication)
-	ServerState.Transform = GetActorTransform();
-	ServerState.KartVelocity = MovementComponent->GetKartVelocity();
-	ServerState.LastMove = InKartMove;
-}
-
-void AGoKart::OnRep_OnReplicatedServerState(){
-	if(!MovementComponent) return;
-
-	//Reseting to server state(position)
-	SetActorTransform(ServerState.Transform);
-	MovementComponent->SetKartVelocity(ServerState.KartVelocity);
-
-	//Clearing moves stored that are not valid(expired)
-	ClearAcknowledgedMoves(ServerState.LastMove);
-
-	//For moves which client is ahead of server, replay all of them.
-	for(const FGoKartMove& Move : UnacknowledgedMoves){
-		MovementComponent->SimulateMove(Move);
-	}
-}
-
-void AGoKart::GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifetimeProps ) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-    DOREPLIFETIME(AGoKart, ServerState);
 }
 
 void AGoKart::MoveForward(float AxisValue) {

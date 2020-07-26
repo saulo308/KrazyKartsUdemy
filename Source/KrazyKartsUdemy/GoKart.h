@@ -4,21 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Net/UnrealNetwork.h"
 #include "GoKartMovementComponent.h"
+#include "GoKartMovementReplicator.h"
 #include "GoKart.generated.h"
-
-USTRUCT()
-struct FGoKartState{
-	GENERATED_BODY()
-
-	UPROPERTY()
-	FVector KartVelocity;
-	UPROPERTY()
-	FTransform Transform;
-	UPROPERTY()
-	FGoKartMove LastMove;
-};
 
 UCLASS()
 class KRAZYKARTSUDEMY_API AGoKart : public APawn
@@ -46,22 +34,8 @@ protected:
 	void MoveRight(float AxisValue);
 
 private:
-	void ClearAcknowledgedMoves(FGoKartMove LastMove);
-
-protected:
-	UFUNCTION(Server, Reliable, WithValidation)
-	void ServerApplyKartMove(FGoKartMove InKartMove);
-
-	//ServerState(This will be sent by the server down to the clients)
-	UPROPERTY(ReplicatedUsing=OnRep_OnReplicatedServerState)
-	FGoKartState ServerState;
-	UFUNCTION()
-	void OnRep_OnReplicatedServerState();
-
-	//Replay movement system
-	TArray<FGoKartMove> UnacknowledgedMoves;
-
-private:
 	UPROPERTY(EditAnywhere)
 	UGoKartMovementComponent* MovementComponent = nullptr;
+	UPROPERTY(EditAnywhere)
+	UGoKartMovementReplicator* MovementReplicator = nullptr;
 };
