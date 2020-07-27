@@ -39,9 +39,12 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	void ClientTick(float DeltaTime);
 
 	UFUNCTION()
 	void OnRep_OnReplicatedServerState();
+	void AutonomusProxy_OnRep_OnReplicatedServerState();
+	void SimulatedProxy_OnRep_OnReplicatedServerState();
 
 	void UpdateServerState(const FGoKartMove& InKartMove);
 
@@ -52,6 +55,11 @@ private:
 
 	//Replay movement system
 	TArray<FGoKartMove> UnacknowledgedMoves;
+	
+	//Linear interpolation
+	float ClientTimeSinceUpdate;
+	float ClientTimeBetweenLastUpdate;
+	FVector StartLocation;
 
 	UPROPERTY()
 	UGoKartMovementComponent* MovementComponent = nullptr;

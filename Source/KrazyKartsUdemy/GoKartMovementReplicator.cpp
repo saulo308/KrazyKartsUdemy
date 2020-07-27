@@ -41,8 +41,19 @@ void UGoKartMovementReplicator::TickComponent(float DeltaTime, ELevelTick TickTy
 	}
 
 	if(GetOwnerRole() == ROLE_SimulatedProxy){
-		MovementComponent->SimulateMove(ServerState.LastMove);
+		ClientTick(DeltaTime);
 	}
+}
+
+void UGoKartMovementReplicator::ClientTick(float DeltaTime){
+	ClientTimeSinceUpdate += DeltaTime;
+	if(ClientTimeBetweenLastUpdate < KINDA_SMALL_NUMBER) return;
+
+	auto TargetLocation = ServerState.Transform.GetLocation();
+	auto LerpRatio = ClientTimeSinceUpdate / ClientTimeBetweenLastUpdate;
+	auto NextLocation = FMath::LerpStable(StartLocation,TargetLocation,LerpRatio);
+
+	GetOwner()->SetActorLocation(NextLocation);
 }
 
 void UGoKartMovementReplicator::ClearAcknowledgedMoves(FGoKartMove LastMove){
@@ -71,6 +82,17 @@ void UGoKartMovementReplicator::ServerApplyKartMove_Implementation(FGoKartMove I
 }
 
 void UGoKartMovementReplicator::OnRep_OnReplicatedServerState(){
+	switch(GetOwnerRole()){
+		case ROLE_AutonomousProxy:
+			AutonomusProxy_OnRep_OnReplicatedServerState();
+			break;
+		case ROLE_SimulatedProxy:
+			SimulatedProxy_OnRep_OnReplicatedServerState();
+			break;
+	}
+}
+
+void UGoKartMovementReplicator::AutonomusProxy_OnRep_OnReplicatedServerState(){
 	if(!MovementComponent) return;
 
 	//Reseting to server state(position)
@@ -84,6 +106,11 @@ void UGoKartMovementReplicator::OnRep_OnReplicatedServerState(){
 	for(const FGoKartMove& Move : UnacknowledgedMoves){
 		MovementComponent->SimulateMove(Move);
 	}
+}
+
+void UGoKartMovementReplicator::SimulatedProxy_OnRep_OnReplicatedServerState(){
+	ClientTimeBetweenLastUpdate = ClientTimeSinceUpdate; 
+	StartLocation = GetOwner()->GetActorLocation();
 }
 
 void UGoKartMovementReplicator::GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifetimeProps ) const
