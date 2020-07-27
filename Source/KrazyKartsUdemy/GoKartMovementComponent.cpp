@@ -28,6 +28,12 @@ void UGoKartMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	// ..
+	if(GetOwnerRole() == ROLE_AutonomousProxy || GetOwner()->GetRemoteRole() == ROLE_SimulatedProxy){
+		//Creating movement
+		LastMove = CreateMove(DeltaTime);
+		//Applying movement locally
+		SimulateMove(LastMove);
+	}
 }
 
 void UGoKartMovementComponent::SimulateMove(const FGoKartMove& Move){
@@ -46,7 +52,6 @@ FGoKartMove UGoKartMovementComponent::CreateMove(float DeltaTime){
 
 	return NewMove;
 }
-
 
 void UGoKartMovementComponent::MoveKart(float DeltaTime,float InThrow) {
 	//Calculating the force that will drive the kart

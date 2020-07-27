@@ -34,8 +34,8 @@ protected:
 	void MoveRight(float AxisValue);
 
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	UGoKartMovementComponent* MovementComponent = nullptr;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	UGoKartMovementReplicator* MovementReplicator = nullptr;
 };

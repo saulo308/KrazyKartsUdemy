@@ -31,6 +31,11 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	//Replication
+	UFUNCTION(Server, Reliable, WithValidation)
+	void ServerApplyKartMove(FGoKartMove InKartMove);
+	void ClearAcknowledgedMoves(FGoKartMove LastMove);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -38,10 +43,7 @@ protected:
 	UFUNCTION()
 	void OnRep_OnReplicatedServerState();
 
-	//Replication
-	UFUNCTION(Server, Reliable, WithValidation)
-	void ServerApplyKartMove(FGoKartMove InKartMove);
-	void ClearAcknowledgedMoves(FGoKartMove LastMove);
+	void UpdateServerState(const FGoKartMove& InKartMove);
 
 private:
 	//ServerState(This will be sent by the server down to the clients)

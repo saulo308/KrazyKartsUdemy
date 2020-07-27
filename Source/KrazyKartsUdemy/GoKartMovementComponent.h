@@ -38,6 +38,7 @@ public:
 	FORCEINLINE void SetSteeringThrow(float Value){ SteeringThrow = Value; }
 	FORCEINLINE void SetKartVelocity(FVector NewVelocity) { KartVelocity = NewVelocity; }
 	FORCEINLINE FVector GetKartVelocity() { return KartVelocity; }
+	FORCEINLINE FGoKartMove GetLastMove() { return LastMove; }
 
 protected:
 	// Called when the game starts
@@ -72,4 +73,6 @@ private:
 	float SteeringThrow;
 	UPROPERTY()
 	FVector KartVelocity;
+
+	FGoKartMove LastMove;
 };

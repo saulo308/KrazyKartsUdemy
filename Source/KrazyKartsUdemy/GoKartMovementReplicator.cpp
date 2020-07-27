@@ -27,22 +27,17 @@ void UGoKartMovementReplicator::TickComponent(float DeltaTime, ELevelTick TickTy
 
 	if(!MovementComponent) return;
 
+	FGoKartMove LastMove = MovementComponent->GetLastMove();
+
 	if(GetOwnerRole() == ROLE_AutonomousProxy){
-		//Creating movement
-		FGoKartMove CurrentMove = MovementComponent->CreateMove(DeltaTime);
 		//Adding to list of movement
-		UnacknowledgedMoves.Add(CurrentMove);
+		UnacknowledgedMoves.Add(LastMove);
 		//Applying movement on server
-		ServerApplyKartMove(CurrentMove);
-		//Applying movement locally
-		MovementComponent->SimulateMove(CurrentMove);
+		ServerApplyKartMove(LastMove);
 	}
 
-	if(GetOwnerRole() == ROLE_Authority && GetWorld()->GetFirstPlayerController()->GetPawn()->IsLocallyControlled()){
-		//Creating movement
-		FGoKartMove CurrentMove = MovementComponent->CreateMove(DeltaTime);
-		//Applying movement on server
-		ServerApplyKartMove(CurrentMove);
+	if(GetOwner()->GetRemoteRole() == ROLE_SimulatedProxy){
+		UpdateServerState(LastMove);
 	}
 
 	if(GetOwnerRole() == ROLE_SimulatedProxy){
@@ -72,11 +67,7 @@ void UGoKartMovementReplicator::ServerApplyKartMove_Implementation(FGoKartMove I
 
 	//Received move done by client, simulate it
 	MovementComponent->SimulateMove(InKartMove);
-
-	//Update the server state and send back to client(Due to replication)
-	ServerState.Transform = GetOwner()->GetActorTransform();
-	ServerState.KartVelocity = MovementComponent->GetKartVelocity();
-	ServerState.LastMove = InKartMove;
+	UpdateServerState(InKartMove);
 }
 
 void UGoKartMovementReplicator::OnRep_OnReplicatedServerState(){
@@ -101,3 +92,9 @@ void UGoKartMovementReplicator::GetLifetimeReplicatedProps( TArray< FLifetimePro
     DOREPLIFETIME(UGoKartMovementReplicator, ServerState);
 }
 
+void UGoKartMovementReplicator::UpdateServerState(const FGoKartMove& InKartMove){
+	//Update the server state and send back to client(Due to replication)
+	ServerState.Transform = GetOwner()->GetActorTransform();
+	ServerState.KartVelocity = MovementComponent->GetKartVelocity();
+	ServerState.LastMove = InKartMove;
+}
