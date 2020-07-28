@@ -18,6 +18,10 @@ struct FGoKartMove{
 	float DeltaTime;
 	UPROPERTY()
 	float Time;
+
+	bool IsValid() {
+		return ((FMath::Abs(Throw) <= 1) && (FMath::Abs(SteeringThrow) <= 1));
+	}
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )

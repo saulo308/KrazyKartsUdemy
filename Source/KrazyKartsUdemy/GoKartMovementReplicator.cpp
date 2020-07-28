@@ -121,13 +121,20 @@ void UGoKartMovementReplicator::ClearAcknowledgedMoves(FGoKartMove LastMove){
 }
 
 bool UGoKartMovementReplicator::ServerApplyKartMove_Validate(FGoKartMove InKartMove){
-	bool bValidForward = FMath::Abs(InKartMove.Throw) <= 1;
-	bool bValidSteer = FMath::Abs(InKartMove.SteeringThrow) <= 1;
+	//Time
+	float ProposedTime = ClientSimulatedTime + InKartMove.DeltaTime;
+	if(!(ProposedTime < GetWorld()->TimeSeconds)) return false;
+
+	//Inputs
+	if(!InKartMove.IsValid()) return false;
+
 	return true;
 }
 
 void UGoKartMovementReplicator::ServerApplyKartMove_Implementation(FGoKartMove InKartMove){
 	if(!MovementComponent) return;
+
+	ClientSimulatedTime += InKartMove.DeltaTime;
 
 	//Received move done by client, simulate it
 	MovementComponent->SimulateMove(InKartMove);
