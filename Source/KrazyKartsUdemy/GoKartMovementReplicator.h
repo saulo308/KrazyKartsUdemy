@@ -59,7 +59,8 @@ private:
 	//Linear interpolation
 	float ClientTimeSinceUpdate;
 	float ClientTimeBetweenLastUpdate;
-	FTransform StartTransform;
+	FTransform ClientStartTransform;
+	FVector ClientStartVelocity;
 
 	UPROPERTY()
 	UGoKartMovementComponent* MovementComponent = nullptr;
